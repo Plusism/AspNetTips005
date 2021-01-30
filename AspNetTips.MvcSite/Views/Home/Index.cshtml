@@ -2,7 +2,115 @@
 	ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-	<h1 class="display-4">Welcome</h1>
-	<p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<style>
+	h2 {
+		margin: 50px 0 30px;
+	}
+
+	hr {
+		margin: 30px 0;
+	}
+
+	.grid {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		grid-gap: 20px;
+	}
+</style>
+
+<div>
+	<h1>ブラウザーキャッシュ対応の独自タグヘルパー</h1>
+	<p>wwwroot 配下のファイルに対するブラウザーキャッシュに対応した aタグ・sourceタグ 用の独自タグヘルパーを実装します。</p>
 </div>
+
+<hr />
+
+<section>
+	<h2>動作デモ</h2>
+	<p>
+		まず、このWebサイトを発行して、ブラウザーからwwwroot配下にあるダミー(PNG、WebP、PDF)にアクセスして、ブラウザーにキャッシュを残します。
+	</p>
+	<p>
+		まず、このWebサイトを発行して、ブラウザーからアクセスしてキャッシュを残します。
+	</p>
+	<p>
+		次に、 wwwroot 配下にある dummy.xxx (WebP/PNG/PDF)の各ファイルを書き換えて、同名のままアップロードして上書きします。
+	</p>
+	<p>
+		静的ファイルが置き換わったら、再度ブラウザーからアクセスしてみます。表示されるデータおよびパスのハッシュが更新されている事を確認します。
+	</p>
+</section>
+
+<hr />
+
+<p>
+	<strong>バージョン指定：有り</strong><br />
+	ファイル名の後に付加されるハッシュが更新されるので最新のファイルが表示されます。
+</p>
+
+<p>
+	<strong>バージョン指定：無し</strong><br />
+	同名のファイルをアップロードしなおしてもパスが同一のためキャシュが優先されます。
+</p>
+
+<hr />
+
+<section>
+	<h2>aタグでPDFファイルを開く</h2>
+	<p>
+		独自タグヘルパー、<strong>AnchorAppendVersionTagHelper</strong>。<br />
+		aタグで asp-append-version を指定した場合。<br />
+		PDF や ZIP のダウンロードであったり、 jQuery 等の画像を拡大表示するプラグインで a タグに画像を指定する必要がある時。
+	</p>
+	<div class="grid">
+		<div>
+			<p>
+				<strong>バージョン指定：有り</strong>
+			</p>
+			<p>
+				<a href="~/pdf/dummy.pdf" asp-append-version="true">PDFを開く</a>
+			</p>
+		</div>
+		<div>
+			<p>
+				<strong>バージョン指定：無し</strong>
+			</p>
+			<p>
+				<a href="~/pdf/dummy.pdf">PDFを開く</a>
+			</p>
+		</div>
+	</div>
+</section>
+
+<section>
+	<h2>pictureタグ(sourceタグ)でWebPを表示する</h2>
+	<p>
+		独自タグヘルパー、<strong>SourceAppendVersionTagHelper</strong>。<br />
+		picture タグ内の source タグで asp-append-version を指定する場合。<br />
+		レスポンシブでブレイクポイントに応じて画像を差し替えたり、 WebP 等の形式の異なるファイルを表示したい時に必要となる。 picture タグだけでなく video タグでも有効。
+	</p>
+	<div class="grid">
+		<div>
+			<p>
+				<strong>バージョン指定：有り</strong>
+			</p>
+			<p>
+				<picture>
+					<source type="image/webp" srcset="~/images/dummy.webp" asp-append-version="true" />
+					<img src="~/images/dummy.png" asp-append-version="true" />
+				</picture>
+			</p>
+		</div>
+		<div>
+			<p>
+				<strong>バージョン指定：無し</strong>
+			</p>
+			<p>
+				<picture>
+					<source type="image/webp" srcset="~/images/dummy.webp" />
+					<img src="~/images/dummy.png" />
+				</picture>
+			</p>
+		</div>
+	</div>
+</section>

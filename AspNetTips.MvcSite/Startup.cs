@@ -38,7 +38,12 @@ namespace AspNetTips.MvcSite
 				app.UseHsts();
 			}
 			app.UseHttpsRedirection();
-			app.UseStaticFiles();
+
+			app.UseStaticFiles(new StaticFileOptions
+			{
+				// 静的ファイルをブラウザーにキャッシュさせる期間(秒数) … 60秒x60分x24時間x365日 = 31,536,000
+				OnPrepareResponse = sfrc => sfrc.Context.Response.Headers.Add("Cache-Control", "public, max-age=31536000")
+			});
 
 			app.UseRouting();
 
