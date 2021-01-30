@@ -13,9 +13,10 @@ namespace AspNetTips.MvcSite.TagHelpers
 	/// sourceタグのsrcsetで静的ファイルのパスにバージョンのハッシュを付加する
 	/// </summary>
 	[HtmlTargetElement(
-			"source",
-			Attributes = AppendVersionAttributeName + "," + SrcsetAttributeName,
-			TagStructure = TagStructure.WithoutEndTag)]
+		"source",
+		Attributes = AppendVersionAttributeName + "," + SrcsetAttributeName,
+		TagStructure = TagStructure.WithoutEndTag
+	)]
 	public class SourceAppendVersionTagHelper : UrlResolutionTagHelper
 	{
 		private const string AppendVersionAttributeName = "asp-append-version";
@@ -29,10 +30,10 @@ namespace AspNetTips.MvcSite.TagHelpers
 		/// <param name="urlHelperFactory"><see cref="IUrlHelperFactory"/></param>
 		[ActivatorUtilitiesConstructor]
 		public SourceAppendVersionTagHelper(
-				IFileVersionProvider fileVersionProvider,
-				HtmlEncoder htmlEncoder,
-				IUrlHelperFactory urlHelperFactory)
-				: base(urlHelperFactory, htmlEncoder)
+			IFileVersionProvider fileVersionProvider,
+			HtmlEncoder htmlEncoder,
+			IUrlHelperFactory urlHelperFactory
+		) : base(urlHelperFactory, htmlEncoder)
 		{
 			FileVersionProvider = fileVersionProvider;
 		}
@@ -86,5 +87,3 @@ namespace AspNetTips.MvcSite.TagHelpers
 		}
 	}
 }
-
-
